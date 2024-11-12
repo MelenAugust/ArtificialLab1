@@ -1,4 +1,5 @@
 import random
+import math, time
 import Lab1_Agents_Task1_World as World
 from Lab1_Agents_Task1_World import collectNearestBlock
 
@@ -77,17 +78,50 @@ class Agent:
         blocks = World.findEnergyBlocks()
         current_distance = blocks[0][2] if blocks else float('inf')
 
-        if simulationTime - self.last_check_time > 2000:  # Check every 2000 ms in simulation time
+        if simulationTime - self.last_check_time > 200:  # Check every 200 ms in simulation time
+            
             if current_distance < self.previous_distance:
                 print("Moving closer to the target. Continuing forward.")
                 self.motorSpeed = dict(speedLeft=1.5, speedRight=1.5)
             else:
-                # Getting farther, adjust direction
                 print("Getting farther from the target. Changing direction.")
-                self.motorSpeed = dict(speedLeft=-0.1, speedRight=0.1)
+                self.motorSpeed = random.choice(
+                   
+                    [
+                    dict(speedLeft=0.5, speedRight=-0.5),  # Turn right
+                    dict(speedLeft=-0.5, speedRight=0.5),  # Turn left
+                    ]
+
+                )
+                
+            # Check for obstacles
+            left_sensor = World.getSensorReading("ultraSonicSensorLeft")
+            right_sensor = World.getSensorReading("ultraSonicSensorRight")
+
+            if left_sensor != float('inf') or right_sensor != float('inf'):
+                if left_sensor < 0.5 or right_sensor < 0.5:
+                    print("Obstacle detected. Changing direction.")
+                    self.motorSpeed = dict(speedLeft=-5, speedRight=-5)  # Move backwards
+                    if left_sensor < right_sensor:
+                        self.motorSpeed = dict(speedLeft=5, speedRight=-5)  # turn right
+
+                    elif right_sensor < left_sensor:
+                        self.motorSpeed = dict(speedLeft=-5, speedRight=5)  # turn left
+
+                    else:
+                        self.motorSpeed = random.choice(
+                   
+                        [
+                        dict(speedLeft=5, speedRight=-5),  # Turn right
+                        dict(speedLeft=-5, speedRight=5),  # Turn left
+                        ]
+
+                        )
+                    
 
             self.previous_distance = current_distance
             self.last_check_time = simulationTime
+
 
         self.try_collect_block()
 

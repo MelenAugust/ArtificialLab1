@@ -31,8 +31,8 @@ while robot:
 
     #agent.random_action()
     #agent.fixed_action(simulationTime)
-    agent.reflex_action()
-    #agent.memory_action(simulationTime)
+    #agent.reflex_action()
+    agent.memory_action(simulationTime)
 
     # assign speed to the wheels
     World.setMotorSpeeds(agent.motorSpeed)
