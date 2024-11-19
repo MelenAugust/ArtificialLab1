@@ -2,7 +2,7 @@
 import random
 import numpy as np
 from Poker_agents import RandomAgent, FixedAgent, ReflexAgent, MemoryAgent
-from Gameutility import  identifyHand, Rank, BettingPhase_number
+from Gameutility import  identifyHand, Rank
 Suit = ["s", "h", "d", "c"]
 card_amount = 3
 Total_pot = 0
