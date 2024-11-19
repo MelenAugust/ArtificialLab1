@@ -23,10 +23,9 @@ class Agent:
 
 
     def random_action(self):
-
         self.motorSpeed = dict(
-            speedLeft=random.uniform(-1.0, 1.0),
-            speedRight=random.uniform(-1.0, 1.0)
+            speedLeft=random.uniform(-5.0, 5.0), 
+            speedRight=random.uniform(5.0, -5.0) 
         )
         self.try_collect_block()
 
@@ -34,16 +33,16 @@ class Agent:
 
         cycle_time = simulationTime % 22000
 
-        if cycle_time < 6000:
-            self.motorSpeed = dict(speedLeft=2, speedRight=2)
+        if cycle_time < 1000:
+            self.motorSpeed = dict(speedLeft=2, speedRight=2) # Move forward
         elif cycle_time < 7000:
-            self.motorSpeed = dict(speedLeft=0.5, speedRight=-0.5)
-        elif cycle_time < 9000:
-            self.motorSpeed = dict(speedLeft=2, speedRight =2)
-        elif cycle_time < 14000:
-            self.motorSpeed = dict(speedLeft=0.5, speedRight=-0.5)
+            self.motorSpeed = dict(speedLeft=-0.5, speedRight=0.5)  # Turn right
+        elif cycle_time < 19000:
+            self.motorSpeed = dict(speedLeft=2, speedRight =2) # Move forward
+        elif cycle_time < 4000:
+            self.motorSpeed = dict(speedLeft=0.5, speedRight=-0.5)  # Turn left
         elif cycle_time < 16000:
-            self.motorSpeed = dict(speedLeft=2, speedRight=2)
+            self.motorSpeed = dict(speedLeft=2, speedRight=2)   # Move forward
 
         self.try_collect_block()
 
@@ -88,8 +87,8 @@ class Agent:
                 self.motorSpeed = random.choice(
                    
                     [
-                    dict(speedLeft=0.5, speedRight=-0.5),  # Turn right
-                    dict(speedLeft=-0.5, speedRight=0.5),  # Turn left
+                    dict(speedLeft=4, speedRight=-4),  # Turn right
+                    dict(speedLeft=-4, speedRight=4),  # Turn left
                     ]
 
                 )
@@ -101,19 +100,19 @@ class Agent:
             if left_sensor != float('inf') or right_sensor != float('inf'):
                 if left_sensor < 0.5 or right_sensor < 0.5:
                     print("Obstacle detected. Changing direction.")
-                    self.motorSpeed = dict(speedLeft=-5, speedRight=-5)  # Move backwards
+                    self.motorSpeed = dict(speedLeft=-4, speedRight=-4)  # Move backwards
                     if left_sensor < right_sensor:
-                        self.motorSpeed = dict(speedLeft=5, speedRight=-5)  # turn right
+                        self.motorSpeed = dict(speedLeft=1, speedRight=-1)  # turn right
 
                     elif right_sensor < left_sensor:
-                        self.motorSpeed = dict(speedLeft=-5, speedRight=5)  # turn left
+                        self.motorSpeed = dict(speedLeft=-1, speedRight=1)  # turn left
 
                     else:
                         self.motorSpeed = random.choice(
                    
                         [
-                        dict(speedLeft=5, speedRight=-5),  # Turn right
-                        dict(speedLeft=-5, speedRight=5),  # Turn left
+                        dict(speedLeft=1, speedRight=-1),  # Turn right
+                        dict(speedLeft=-1, speedRight=1),  # Turn left
                         ]
 
                         )
