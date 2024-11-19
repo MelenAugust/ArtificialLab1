@@ -1,5 +1,5 @@
+
 Rank = ["2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K", "A"]
-game_round = 0
 
 def identifyHand(hand):
 
